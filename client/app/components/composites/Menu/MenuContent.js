@@ -14,8 +14,7 @@ class MenuContent extends Component {
     if (data.type === 'menuitem') {
       return Object.assign({},
         { ContentComponent: MenuItem },
-        { props: Object.assign({}, data, { index }),
-        }
+        { props: Object.assign({}, data, { index }) }
       );
     }
     return null;

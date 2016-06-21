@@ -47,10 +47,26 @@
     }
   }
 
+  & .topbarMenu {
+    display: none;
+  }
+  & .topbarMobileMenu {
+    display: block;
+  }
 
   & .topbarLanguageMenuLabel {
     font-size: var(--Menu_fontSizeSmall);
   }
+
+  @media (--large-viewport) {
+    & .topbarMenu {
+      display: block;
+    }
+    & .topbarMobileMenu {
+      display: none;
+    }
+  }
+
 
 }
 
