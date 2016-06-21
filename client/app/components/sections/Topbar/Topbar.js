@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { Component, PropTypes } from 'react';
 import r, { div } from 'r-dom';
 
