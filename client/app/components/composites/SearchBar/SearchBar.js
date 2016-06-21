@@ -15,13 +15,6 @@ const SEARCH_MODES = [
   SEARCH_MODE_KEYWORD_AND_LOCATION,
 ];
 
-const coordinates = (place) => {
-  if (place && place.geometry) {
-    return place.geometry.location.toUrlValue();
-  }
-  return null;
-};
-
 const getDetails = (placeId) => new Promise((resolve, reject) => {
   const serviceStatus = window.google.maps.places.PlacesServiceStatus;
   const el = document.createElement('div');
@@ -118,46 +111,46 @@ class SearchBar extends Component {
     if (!this.locationInput) {
       // Only keyword input, submitting current input value
       onSubmit({
-        keyword: keywordValueStr,
-        location: null,
-        coordinates: null,
+        keywordQuery: keywordValueStr,
+        locationQuery: null,
+        place: null,
       });
       return;
     }
 
     const keywordValue = this.keywordInput ? this.keywordInput.value : null;
-    const coords = coordinates(this.state.selectedPlace);
 
-    if (coords) {
+    if (this.state.selectedPlace) {
       // Place already selected, submitting selected value
       onSubmit({
-        keyword: keywordValue,
-        location: locationValueStr,
-        coordinates: coords,
+        keywordQuery: keywordValue,
+        locationQuery: locationValueStr,
+        place: this.state.selectedPlace,
       });
     } else if (locationValueStr) {
       // Predict location from the typed value
       getPrediction(locationValueStr)
         .then((place) => {
-          const predictedCoords = coordinates(place);
-          if (!predictedCoords) {
-            throw new Error(`Could not get coordinates from place predicted from location "${locationValueStr}"`);
-          }
           onSubmit({
-            keyword: keywordValue,
-            location: locationValueStr,
-            coordinates: predictedCoords,
+            keywordQuery: keywordValue,
+            locationQuery: locationValueStr,
+            place,
           });
         })
         .catch((e) => {
           console.error('failed to predict location:', e); // eslint-disable-line no-console
+          onSubmit({
+            keywordQuery: keywordValue,
+            locationQuery: locationValueStr,
+            place: null,
+          });
         });
     } else if (this.keywordInput) {
       // Only keyword value present, submit that
       onSubmit({
-        keyword: keywordValue,
-        location: '',
-        coords: null,
+        keywordQuery: keywordValue,
+        locationQuery: '',
+        place: null,
       });
     }
   }
