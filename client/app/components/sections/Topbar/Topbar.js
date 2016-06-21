@@ -98,8 +98,10 @@ const createQuery = (searchParams) => {
   const params = { ...extraParams, ...searchParams };
 
   console.log('creating query string from params:', params);
+  const paramKeys = Object.keys(params);
+  paramKeys.sort();
 
-  return Object.keys(params).reduce((url, key) => {
+  return paramKeys.reduce((url, key) => {
     const val = params[key];
 
     if (!isValid(val)) {
