@@ -89,6 +89,8 @@ const currentSearchParams = (searchQuery) => {
   }, {});
 };
 
+const isValid = (value) => typeof value === 'number' && !isNaN(value) || !!value;
+
 const createQuery = (searchParams) => {
   const extraParams = currentSearchParams(window.location.search);
   const params = { ...extraParams, ...searchParams };
@@ -97,8 +99,12 @@ const createQuery = (searchParams) => {
 
   return Object.keys(params).reduce((url, key) => {
     const val = params[key];
-    const value = (val == null) ? '' : encodeURIComponent(val);
-    return `${url}${url ? '&' : '?'}${key}=${value}`;
+
+    if (!isValid(val)) {
+      return url;
+    }
+
+    return `${url}${url ? '&' : '?'}${key}=${encodeURIComponent(val)}`;
   }, '');
 };
 
@@ -111,6 +117,8 @@ class Topbar extends Component {
           mode: this.props.search.mode,
           keywordPlaceholder: this.props.search.keyword_placeholder,
           locationPlaceholder: this.props.search.location_placeholder,
+          keywordQuery: this.props.search.keyword_query,
+          locationQuery: this.props.search.location_query,
           onSubmit: ({ keywordQuery, locationQuery, place }) => {
             console.log({
               keywordQuery,
@@ -121,13 +129,14 @@ class Topbar extends Component {
             });
             const query = createQuery({
               q: keywordQuery,
+              lq: locationQuery,
               lc: coordinates(place),
-              ls: 'OK', // TODO: is this relevant?
               boundingbox: viewport(place),
               distance_max: maxDistance(place),
             });
-            console.log('new query string:', query);
-            window.location.assign(query);
+            const searchUrl = `${this.props.search_path}${query}`;
+            console.log('Search URL:', `"${searchUrl}"`);
+            window.location.assign(searchUrl);
           },
         }) :
       null,
@@ -138,10 +147,13 @@ class Topbar extends Component {
 Topbar.propTypes = {
   logo: PropTypes.shape(Logo.propTypes).isRequired,
   search: PropTypes.shape({
-    mode: PropTypes.string,
-    keyword_placeholder: PropTypes.string,
-    location_placeholder: PropTypes.string,
-  }).isRequired,
+    mode: PropTypes.string.isRequired,
+    keyword_placeholder: PropTypes.string.isRequired,
+    location_placeholder: PropTypes.string.isRequired,
+    keyword_query: PropTypes.string,
+    location_query: PropTypes.string,
+  }),
+  search_path: PropTypes.string.isRequired,
 };
 
 export default Topbar;

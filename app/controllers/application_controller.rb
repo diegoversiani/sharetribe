@@ -621,6 +621,7 @@ class ApplicationController < ActionController::Base
   helper_method :onboarding_topbar_props
 
   def topbar_props
+    main_search = location_search_available ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
     {
       logo: {
         href: '/',
@@ -629,10 +630,13 @@ class ApplicationController < ActionController::Base
         image_highres: @current_community.wide_logo.present? ? @current_community.wide_logo.url(:header_highres) : nil
       },
       search: {
-        mode: 'keyword-and-location',
+        mode: main_search.to_s,
         keyword_placeholder: (@community_customization && @community_customization.search_placeholder) || t("web.topbar.search_placeholder"),
-        location_placeholder: 'Location'
-      }
+        location_placeholder: 'Location', # TODO: localise
+        keyword_query: params[:q],
+        location_query: params[:lq]
+      },
+      search_path: '/' # TODO: this can change in the CLP project, get the correct path here
     }
   end
 

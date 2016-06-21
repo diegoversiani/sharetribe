@@ -155,12 +155,13 @@ class SearchBar extends Component {
     }
   }
   render() {
-    const { mode, keywordPlaceholder, locationPlaceholder } = this.props;
+    const { mode, keywordPlaceholder, locationPlaceholder, keywordQuery, locationQuery } = this.props;
 
     const keywordInput = input({
       type: 'search',
       className: css.keywordInput,
       placeholder: keywordPlaceholder,
+      defaultValue: keywordQuery,
       ref: (c) => {
         this.keywordInput = c;
       },
@@ -169,6 +170,7 @@ class SearchBar extends Component {
       type: 'search',
       className: css.locationInput,
       placeholder: locationPlaceholder,
+      defaultValue: locationQuery,
       autoComplete: 'off',
 
       // When the user edits the selected location value, the fetched
@@ -227,6 +229,8 @@ SearchBar.propTypes = {
   mode: PropTypes.oneOf(SEARCH_MODES).isRequired,
   keywordPlaceholder: PropTypes.string.isRequired,
   locationPlaceholder: PropTypes.string.isRequired,
+  keywordQuery: PropTypes.string,
+  locationQuery: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
 };
 

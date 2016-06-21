@@ -12,6 +12,7 @@ storiesOf('Top bar')
         image: 'https://s3.amazonaws.com/sharetribe-manual-assets/styleguide/bikerrrs-logo.png',
         image_highres: 'https://s3.amazonaws.com/sharetribe-manual-assets/styleguide/bikerrrs-logo.png',
       },
+      search_path: '/',
     })))
   .add('Picture logo 2', () => (
     withProps(Topbar, {
@@ -21,6 +22,7 @@ storiesOf('Top bar')
         image: 'http://placehold.it/350x150',
         image_highres: 'https://s3.amazonaws.com/sharetribe-manual-assets/styleguide/bikerrrs-logo.png',
       },
+      search_path: '/',
     })))
   .add('Short text logo', () => (
     withProps(Topbar, {
@@ -28,6 +30,7 @@ storiesOf('Top bar')
         href: 'http://example.com',
         text: 'My Marketplace',
       },
+      search_path: '/',
     })))
   .add('Long text logo', () => (
     withProps(Topbar, {
@@ -35,6 +38,7 @@ storiesOf('Top bar')
         href: 'http://example.com',
         text: 'My Marketplace with a long name',
       },
+      search_path: '/',
     })))
   .add('With keyword search', () => (
     withProps(Topbar, {
@@ -49,6 +53,7 @@ storiesOf('Top bar')
         keyword_placeholder: 'Search...',
         location_placeholder: 'Location',
       },
+      search_path: '/',
     })))
   .add('With location search', () => (
     withProps(Topbar, {
@@ -63,6 +68,7 @@ storiesOf('Top bar')
         keyword_placeholder: 'Search...',
         location_placeholder: 'Location',
       },
+      search_path: '/',
     })))
   .add('With keyword and location search', () => (
     withProps(Topbar, {
@@ -77,4 +83,5 @@ storiesOf('Top bar')
         keyword_placeholder: 'Search...',
         location_placeholder: 'Location',
       },
+      search_path: '/',
     })));
