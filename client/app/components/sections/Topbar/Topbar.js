@@ -47,18 +47,48 @@ const coordinates = (place) => {
 };
 
 const viewport = (place) => {
-  if (place && place.geometry) {
+  if (place && place.geometry && place.geometry.viewport) {
     return place.geometry.viewport.toUrlValue();
   }
   return null;
 };
 
 const maxDistance = (place) => {
-  if (place && place.geometry) {
+  if (place && place.geometry && place.geometry.viewport) {
     return computeScale(place.geometry.viewport.getNorthEast(),
                         place.geometry.viewport.getSouthWest());
   }
   return null;
+};
+
+const parseQuery = (searchQuery) => {
+  return {
+    view: 'some%20view',
+    locale: 'fi,en',
+  };
+};
+
+const currentSearchParams = (searchQuery) => {
+  const PARAMS_TO_KEEP = ['view', 'locale'];
+  const parsedParams = parseQuery(searchQuery);
+
+  return Object.keys(parsedParams).reduce((params, key) => {
+    if (PARAMS_TO_KEEP.includes(key)) {
+      params[key] = decodeURIComponent(parsedParams[key]); // eslint-disable-line no-param-reassign
+    }
+    return params;
+  }, {});
+};
+
+const createQuery = (searchParams) => {
+  const extraParams = currentSearchParams(window.location.search);
+ const params = { ...extraParams, ...searchParams };
+
+  return Object.keys(params).reduce((url, key) => {
+    const val = params[key];
+    const value = (val == null) ? '' : encodeURIComponent(val);
+    return `${url}${url ? '&' : '?'}${key}=${value}`;
+  }, '');
 };
 
 class Topbar extends Component {
@@ -78,6 +108,15 @@ class Topbar extends Component {
               viewport: viewport(place),
               maxDistance: maxDistance(place),
             });
+            const query = createQuery({
+              q: keywordQuery,
+              lc: coordinates(place),
+              ls: 'OK', // TODO: is this relevant?
+              boundingbox: viewport(place),
+              distance_max: maxDistance(place),
+            });
+            console.log('new query string:', query);
+            window.location.assign(query);
           },
         }) :
       null,
