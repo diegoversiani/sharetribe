@@ -62,10 +62,19 @@ const maxDistance = (place) => {
 };
 
 const parseQuery = (searchQuery) => {
-  return {
-    view: 'some%20view',
-    locale: 'fi,en',
-  };
+  const parts = (searchQuery || '')
+          .replace(/^\?/, '')
+          .replace(/#.*$/, '')
+          .split('&');
+
+  return parts.reduce((params, keyval) => {
+    const pair = keyval.split('=');
+    const pairLength = 2;
+    if (pair.length === pairLength) {
+      params[pair[0]] = decodeURIComponent(pair[1]); // eslint-disable-line no-param-reassign
+    }
+    return params;
+  }, {});
 };
 
 const currentSearchParams = (searchQuery) => {
@@ -74,7 +83,7 @@ const currentSearchParams = (searchQuery) => {
 
   return Object.keys(parsedParams).reduce((params, key) => {
     if (PARAMS_TO_KEEP.includes(key)) {
-      params[key] = decodeURIComponent(parsedParams[key]); // eslint-disable-line no-param-reassign
+      params[key] = parsedParams[key]; // eslint-disable-line no-param-reassign
     }
     return params;
   }, {});
@@ -82,7 +91,9 @@ const currentSearchParams = (searchQuery) => {
 
 const createQuery = (searchParams) => {
   const extraParams = currentSearchParams(window.location.search);
- const params = { ...extraParams, ...searchParams };
+  const params = { ...extraParams, ...searchParams };
+
+  console.log('creating query string from params:', params);
 
   return Object.keys(params).reduce((url, key) => {
     const val = params[key];
