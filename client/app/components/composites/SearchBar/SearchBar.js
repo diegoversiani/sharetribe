@@ -2,6 +2,7 @@
 
 import { Component, PropTypes } from 'react';
 import { form, input, button, span, div } from 'r-dom';
+import * as placesUtils from '../../../utils/places';
 
 import css from './SearchBar.css';
 import icon from './images/search-icon.svg';
@@ -14,35 +15,6 @@ const SEARCH_MODES = [
   SEARCH_MODE_LOCATION,
   SEARCH_MODE_KEYWORD_AND_LOCATION,
 ];
-
-const getDetails = (placeId) => new Promise((resolve, reject) => {
-  const serviceStatus = window.google.maps.places.PlacesServiceStatus;
-  const el = document.createElement('div');
-  const service = new window.google.maps.places.PlacesService(el);
-
-  service.getDetails({ placeId }, (place, status) => {
-    if (status !== serviceStatus.OK) {
-      reject(new Error(`Could not get details for place id "${placeId}"`));
-    } else {
-      resolve(place);
-    }
-  });
-});
-
-const getPrediction = (location) => new Promise((resolve, reject) => {
-  const serviceStatus = window.google.maps.places.PlacesServiceStatus;
-  const service = new window.google.maps.places.AutocompleteService();
-
-  service.getPlacePredictions({ input: location }, (predictions, status) => {
-    if (status !== serviceStatus.OK) {
-      reject(new Error(`Prediction service status not OK: ${status}`));
-    } else if (predictions.length === 0) {
-      reject(new Error(`No predictions found for location "${location}"`));
-    } else {
-      resolve(getDetails(predictions[0].place_id));
-    }
-  });
-});
 
 class SearchBar extends Component {
   constructor(props) {
@@ -132,7 +104,7 @@ class SearchBar extends Component {
       });
     } else if (locationValueStr) {
       // Predict location from the typed value
-      getPrediction(locationValueStr)
+      placesUtils.getPrediction(locationValueStr)
         .then((place) => {
           onSubmit({
             keywordQuery: keywordValue,
