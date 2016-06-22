@@ -2,6 +2,7 @@
 
 import { Component, PropTypes } from 'react';
 import r, { div } from 'r-dom';
+import { routes } from '../../../utils/PropTypes';
 import * as placesUtils from '../../../utils/places';
 
 import css from './Topbar.css';
@@ -87,7 +88,8 @@ class Topbar extends Component {
             const searchUrl = `${this.props.search_path}${query}`;
             console.log('Search URL:', `"${searchUrl}"`);
 
-            window.location.assign(searchUrl);
+            // window.location.assign(searchUrl);
+            this.actions.submitSearch(query);
           },
         }) :
       null,
@@ -96,6 +98,10 @@ class Topbar extends Component {
 }
 
 Topbar.propTypes = {
+  actions: PropTypes.shape({
+    submitSearch: PropTypes.func.isRequired,
+  }).isRequired,
+  routes,
   logo: PropTypes.shape(Logo.propTypes).isRequired,
   search: PropTypes.shape({
     mode: PropTypes.string.isRequired,
@@ -105,6 +111,7 @@ Topbar.propTypes = {
     location_query: PropTypes.string,
   }),
   search_path: PropTypes.string.isRequired,
+  query: PropTypes.object.isRequired,
 };
 
 export default Topbar;
