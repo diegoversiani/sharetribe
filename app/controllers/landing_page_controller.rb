@@ -7,6 +7,7 @@ class LandingPageController < ActionController::Metal
   # See Rendering Helpers: http://api.rubyonrails.org/classes/ActionController/Metal.html
   #
   include AbstractController::Rendering
+  include ActionController::ConditionalGet
   include ActionView::Layouts
   append_view_path "#{Rails.root}/app/views"
 
@@ -20,13 +21,17 @@ class LandingPageController < ActionController::Metal
     cid = community_id(request)
     version = CLP::LandingPageStore.released_version(cid)
 
-    # TODO Ideally we would do the caching based upon just clp_version
-    # and avoid loading and parsing the (potentially) big structure
-    # JSON.
-    begin
-      structure = CLP::LandingPageStore.load_structure(cid, version)
+    cache_time = APP_CONFIG[:clp_cache_time].to_i.seconds
 
-      render_landing_page(cid, structure)
+    begin
+      lp_html = Rails.cache.fetch("clp/#{cid}/#{version}", expires_in: cache_time) do
+        structure = CLP::LandingPageStore.load_structure(cid, version)
+        render_landing_page(cid, structure)
+      end
+      
+      expires_in cache_time, public: true
+      self.status = 200
+      self.response_body = lp_html
     rescue CLP::LandingPageContentNotFound
       render_not_found()
     end
@@ -44,7 +49,9 @@ class LandingPageController < ActionController::Metal
 
       # Tell robots to not index and to not follow any links
       headers["X-Robots-Tag"] = "none"
-      render_landing_page(cid, structure)
+      
+      self.status = 200
+      self.response_body = render_landing_page(cid, structure)
     rescue CLP::LandingPageContentNotFound
       render_not_found()
     end
@@ -89,7 +96,7 @@ class LandingPageController < ActionController::Metal
 
     denormalizer = build_denormalizer(cid, locale, sitename)
 
-    render :landing_page,
+    render_to_string :landing_page,
            locals: { font_path: font_path,
                      styles: landing_page_styles,
                      javascripts: {
