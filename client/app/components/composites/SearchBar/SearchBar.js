@@ -70,7 +70,10 @@ class SearchBar extends Component {
     this.placeChangedListener = window.google.maps.event.addListener(
       autocomplete,
       'place_changed',
-      () => this.setState({ selectedPlace: autocomplete.getPlace() })
+      () => {
+        this.setState({ selectedPlace: autocomplete.getPlace() });
+        this.handleSubmit();
+      }
     );
   }
   componentWillUnmount() {
