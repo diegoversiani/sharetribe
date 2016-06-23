@@ -56,6 +56,8 @@ class MenuMobile extends Component {
         color: overlayColor,
         menuLinksTitle: this.props.menuLinksTitle,
         menuLinks: this.props.menuLinks,
+        userLinksTitle: this.props.userLinksTitle,
+        userLinks: this.props.userLinks,
       }),
     ]);
   }
@@ -76,6 +78,16 @@ MenuMobile.propTypes = {
       type: PropTypes.string.isRequired,
     })
   ).isRequired,
+  userLinksTitle: PropTypes.string,
+  userLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      active: PropTypes.bool.isRequired,
+      activeColor: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      href: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default MenuMobile;

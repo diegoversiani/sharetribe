@@ -26,6 +26,50 @@ const avatarDropdownProps = (avatarDropdown) => {
 const LABEL_TYPE_MENU = 'menu';
 const LABEL_TYPE_DROPDOWN = 'dropdown';
 
+const profileLinks = function profileLinks(username, router, marketplaceContext) {
+  if (username) {
+    return [
+      {
+        active: router.person_inbox_path(username) === marketplaceContext.location,
+        activeColor: marketplaceContext.marketplace_color1,
+        content: t('web.topbar.inbox'),
+        href: router.person_inbox_path(username),
+        type: 'menuitem',
+      },
+      {
+        active: router.person_path(username) === marketplaceContext.location,
+        activeColor: marketplaceContext.marketplace_color1,
+        content: t('web.topbar.profile'),
+        href: router.person_path(username),
+        type: 'menuitem',
+      },
+      {
+        active: `${router.person_path(username)}?show_closed=1` === marketplaceContext.location,
+        activeColor: marketplaceContext.marketplace_color1,
+        content: t('web.topbar.manage_listings'),
+        href: `${router.person_path(username)}?show_closed=1`,
+        type: 'menuitem',
+      },
+      {
+        active: router.person_settings_path(username) === marketplaceContext.location,
+        activeColor: marketplaceContext.marketplace_color1,
+        content: t('web.topbar.settings'),
+        href: router.person_settings_path(username),
+        type: 'menuitem',
+      },
+      {
+        active: router.logout_path() === marketplaceContext.location,
+        activeColor: marketplaceContext.marketplace_color1,
+        content: t('web.topbar.logout'),
+        href: router.logout_path(),
+        type: 'menuitem',
+      },
+    ];
+  }
+  return [];
+};
+
+
 class Topbar extends Component {
   render() {
     const marketplaceContext = this.props.railsContext ?
@@ -76,6 +120,7 @@ class Topbar extends Component {
       }) :
       {};
 
+    const username = this.props.railsContext.loggedInUsername ? this.props.railsContext.loggedInUsername : null;
     const mobileMenuProps = Object.assign({}, this.props.menu, {
       key: 'mobilemenu',
       name: t('web.topbar.menu'),
@@ -93,7 +138,10 @@ class Topbar extends Component {
           type: 'menuitem',
         }
       )),
+      userLinksTitle: t('web.topbar.user'),
+      userLinks: profileLinks(username, this.props.routes, marketplaceContext),
     });
+
 
     return div({ className: css.topbar }, [
       this.props.menu ? r(MenuMobile, mobileMenuProps) : null,

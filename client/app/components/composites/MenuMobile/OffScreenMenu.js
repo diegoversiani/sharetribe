@@ -23,6 +23,11 @@ class OffScreenMenu extends Component {
           color: this.props.color,
           links: this.props.menuLinks,
         }),
+        r(MenuSection, {
+          name: this.props.userLinksTitle,
+          color: this.props.color,
+          links: this.props.userLinks,
+        }),
       ]),
       div({
         className: `offscreenmenu_footer ${css.offScreenFooter}`,
@@ -44,6 +49,16 @@ OffScreenMenu.propTypes = {
       type: PropTypes.string.isRequired,
     })
   ).isRequired,
+  userLinksTitle: PropTypes.string.isRequired,
+  userLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      active: PropTypes.bool.isRequired,
+      activeColor: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      href: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default OffScreenMenu;
