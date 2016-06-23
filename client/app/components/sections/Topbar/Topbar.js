@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react';
 import r, { div } from 'r-dom';
 
 import { t } from '../../../utils/i18n';
-import { railsContext } from '../../../utils/PropTypes';
+import { routes, railsContext } from '../../../utils/PropTypes';
 import css from './Topbar.css';
 
 import Logo from '../../elements/Logo/Logo';
@@ -142,6 +142,7 @@ Topbar.propTypes = {
       change_locale_uri: PropTypes.string.isRequired,
     })),
   }),
+  routes,
   railsContext,
 };
 
