@@ -3,6 +3,8 @@ import r from 'r-dom';
 import withProps, { storify, defaultRailsContext } from '../../Styleguide/withProps';
 
 import Topbar from './Topbar';
+
+const marketplaceColor = '#EE4';
 const containerStyle = { style: { minWidth: '600px', background: 'white' } };
 
 const baseProps = {
@@ -19,7 +21,7 @@ const baseProps = {
     onSubmit: action('submitting search'),
   },
   avatarDropdown: {
-    customColor: '#EE4',
+    customColor: marketplaceColor,
     actions: {
       inboxAction: action('clicked inbox'),
       profileAction: action('clicked profile'),
@@ -34,6 +36,10 @@ const baseProps = {
         action('clicked avatar');
       },
     },
+  },
+  newListingButton: {
+    text: 'Post a new listing',
+    customColor: marketplaceColor,
   },
 };
 

@@ -687,6 +687,10 @@ class ApplicationController < ActionController::Base
           imageHeight: '44px',
           image: Maybe(@current_user).image.url(:thumb).or_else(view_context.image_path("profile_image/thumb/missing.png")),
         }
+      },
+      newListingButton: {
+        text: I18n.t("homepage.index.post_new_listing"),
+        customColor: current_community_custom_colors[:marketplace_color1]
       }
     }
   end
