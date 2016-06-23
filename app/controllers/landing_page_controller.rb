@@ -24,14 +24,29 @@ class LandingPageController < ActionController::Metal
     cache_time = APP_CONFIG[:clp_cache_time].to_i.seconds
 
     begin
-      lp_html = Rails.cache.fetch("clp/#{cid}/#{version}", expires_in: cache_time) do
-        structure = CLP::LandingPageStore.load_structure(cid, version)
-        render_landing_page(cid, structure)
-      end
+      lp_html = nil
+      lp_meta = Rails.cache.read("clp/#{cid}/#{version}")
       
-      expires_in cache_time, public: true
-      self.status = 200
-      self.response_body = lp_html
+      unless lp_meta
+        # Nothing cached, build structure and metadata cache
+        lp_html, lp_meta = cache_structure_and_meta(cid, version, cache_time)
+      end
+
+      unless fresh_when(etag: lp_meta[:digest], last_modified: lp_meta[:last_modified], template: false, public: true)
+        lp_html = fetch_html(cid, version, lp_meta[:digest]) unless lp_html
+      
+        unless lp_html
+          # This should not happen, since html is cached longer than metadata
+          # Fallback:
+          lp_html = build_html(cid, version)
+          expires_now
+        end
+
+        self.status = 200
+        self.response_body = lp_html
+      end
+
+      expires_in [0, cache_time - (Time.now - lp_meta[:last_modified])].max, public: true if lp_meta
     rescue CLP::LandingPageContentNotFound
       render_not_found()
     end
@@ -59,6 +74,36 @@ class LandingPageController < ActionController::Metal
 
 
   private
+
+  def cache_meta(community_id, version, content, cache_time)
+    meta = {last_modified: Time.now(), digest: Digest::MD5.hexdigest(content)}
+    Rails.cache.write("clp/#{community_id}/#{version}", meta, expires_in: cache_time)
+    meta
+  end
+
+  def cache_structure_and_meta(community_id, version, cache_time)
+    lp_html = build_html(community_id, version)
+    
+    # write metadata first, so that it expires first
+    lp_meta = cache_meta(community_id, version, lp_html, cache_time)
+    
+    # cache html longer than metadata, but keyed by digest
+    Rails.cache.write("clp/#{community_id}/#{version}/#{lp_meta[:digest]}", lp_html, expires_in: cache_time + 10.seconds)
+    
+    headers["X-CLP-Cache"] = "0"
+
+    [lp_html, lp_meta]
+  end
+
+  def build_html(community_id, version)
+    structure = CLP::LandingPageStore.load_structure(community_id, version)
+    render_landing_page(community_id, structure)
+  end
+
+  def fetch_html(community_id, version, digest)
+    headers["X-CLP-Cache"] = "1"
+    Rails.cache.read("clp/#{community_id}/#{version}/#{digest}")
+  end
 
   def build_denormalizer(cid, locale, sitename)
     # Application paths
