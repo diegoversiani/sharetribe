@@ -30,9 +30,9 @@ class MenuSection extends Component {
       [];
 
     return div({
-      className: `menusection ${css.menuSection}`,
+      className: `MenuSection ${css.menuSection}`,
     }, [
-      div({ className: `menusection_title ${css.menuSectionTitle}` }, this.props.name),
+      div({ className: `MenuSection_title ${css.menuSectionTitle}` }, this.props.name),
     ].concat(links));
   }
 }

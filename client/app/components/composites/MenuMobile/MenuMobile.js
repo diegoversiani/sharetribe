@@ -36,15 +36,14 @@ class MenuMobile extends Component {
     const extraClasses = this.props.extraClasses ? this.props.extraClasses : '';
 
     return div({
-      className: `menumobile ${css.menumobile} ${extraClasses} ${openClass}`,
+      className: `MenuMobile ${css.menuMobile} ${extraClasses} ${openClass}`,
       onBlur: this.handleBlur,
       tabIndex: 0,
     }, [
       div({
-        id: 'menumobile_overlay',
         style: { backgroundColor: overlayColor },
         onClick: this.closeMenu,
-        className: css.overlay,
+        className: `MenuMobile_overlay ${css.overlay}`,
       }),
       r(MenuLabelMobile, {
         name: this.props.name,

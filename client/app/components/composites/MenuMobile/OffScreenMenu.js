@@ -10,13 +10,13 @@ class OffScreenMenu extends Component {
     const isOpenClass = this.props.isOpen ? css.offScreenMenuOpen : '';
 
     return div({
-      className: `offscreenmenu ${css.offScreenMenu} ${isOpenClass}`,
+      className: `OffScreenMenu ${css.offScreenMenu} ${isOpenClass}`,
     }, [
       div({
-        className: `offscreenmenu_header ${css.offScreenHeader}`,
+        className: `OffScreenMenu_header ${css.offScreenHeader}`,
       }, 'header'),
       div({
-        className: `offscreenmenu_main ${css.offScreenMain}`,
+        className: `OffScreenMenu_main ${css.offScreenMain}`,
       }, [
         r(MenuSection, {
           name: this.props.menuLinksTitle,
@@ -30,7 +30,7 @@ class OffScreenMenu extends Component {
         }),
       ]),
       div({
-        className: `offscreenmenu_footer ${css.offScreenFooter}`,
+        className: `OffScreenMenu_footer ${css.offScreenFooter}`,
       }, 'footer'),
     ]);
   }

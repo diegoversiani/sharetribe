@@ -9,7 +9,7 @@ class MenuLabelMobile extends Component {
     const extraClasses = this.props.extraClasses ? this.props.extraClasses : '';
     return (
       div({
-        className: `menumobile__label ${css.menuLabelMobile} ${extraClasses}`,
+        className: `MenuLabelMobile ${css.menuLabelMobile} ${extraClasses}`,
         onClick: this.props.handleClick,
       }, [
         span({
