@@ -4,7 +4,7 @@ module RailsContextExtension
   def self.custom_context(view_context)
     {
       marketplaceId: view_context.controller.current_community_id,
-      loggedInUsername: view_context.controller.current_user_username,
+      loggedInUsername: Maybe(view_context.controller.current_user).username.or_else(nil)
     }.merge(view_context.controller.current_community_custom_colors)
   end
 end

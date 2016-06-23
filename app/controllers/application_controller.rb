@@ -440,10 +440,6 @@ class ApplicationController < ActionController::Base
     Maybe(@current_community).id.or_else(nil)
   end
 
-  def current_user_username
-    Maybe(@current_user).username.or_else(nil)
-  end
-
   def current_community_custom_colors
     Maybe(@current_community)
       .map { |c|
