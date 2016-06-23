@@ -50,6 +50,7 @@
   & .topbarMenu {
     display: none;
   }
+
   & .topbarMobileMenu {
     display: block;
   }
@@ -62,6 +63,7 @@
     & .topbarMenu {
       display: block;
     }
+
     & .topbarMobileMenu {
       display: none;
     }
