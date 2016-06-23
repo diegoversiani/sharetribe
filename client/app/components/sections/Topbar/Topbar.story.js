@@ -19,7 +19,6 @@ const baseProps = {
     onSubmit: action('submitting search'),
   },
   avatarDropdown: {
-    customColor: '#EE4',
     actions: {
       inboxAction: action('clicked inbox'),
       profileAction: action('clicked profile'),
