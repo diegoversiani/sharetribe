@@ -13,8 +13,8 @@ class MenuSection extends Component {
         { props: Object.assign({}, data, {
           index,
           textColor,
-          extraClasses: css.menuSectionItem,
-          extraClassesLink: css.menuSectionItemLink,
+          extraClasses: css.menuSectionMenuItem,
+          extraClassesLink: css.menuSectionMenuItemLink,
         }) }
       );
     }

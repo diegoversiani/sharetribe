@@ -26,6 +26,7 @@ class MenuLabelMobile extends Component {
 
 MenuLabelMobile.propTypes = {
   name: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
   extraClasses: PropTypes.string,
 };
 

@@ -7,7 +7,7 @@ import MenuLabelDropdown from './MenuLabelDropdown';
 import MenuContent from './MenuContent';
 import css from './Menu.css';
 
-const INITIAL_ARROW_POSITION = 50;
+const INITIAL_ARROW_POSITION = 25;
 const MENULABEL_MAP = {
   menu: MenuLabel,
   dropdown: MenuLabelDropdown,
@@ -37,7 +37,7 @@ class Menu extends Component {
     const menuLabel = ReactDOM.findDOMNode(this.menuLabel);
 
     this.setState({ // eslint-disable-line react/no-did-mount-set-state, react/no-set-state
-      arrowPosition: menuLabel.offsetWidth > 40 ? menuLabel.offsetWidth / 2 : 20, // eslint-disable-line no-magic-numbers
+      arrowPosition: menuLabel.offsetWidth > (INITIAL_ARROW_POSITION * 2) ? menuLabel.offsetWidth / 2 : INITIAL_ARROW_POSITION, // eslint-disable-line no-magic-numbers
     });
   }
 

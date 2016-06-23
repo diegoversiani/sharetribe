@@ -12,6 +12,11 @@ const backgroundLightColorHover = 'rgba(169, 172, 176, 0.07)';
 const topbarBorderColor = 'rgba(169, 172, 176, 0.5)';
 const bodyPadding = '18px';
 
+const pxToEms = function pxToEms(px, againstFontSize) {
+  const emValue = px / againstFontSize;
+  return `${emValue}em)`;
+};
+
 module.exports = {
 
   /*
@@ -139,10 +144,10 @@ module.exports = {
 
   '--MenuItem_borderColor': topbarBorderColor,
   '--MenuItem_backgroundColorHover': backgroundLightColorHover,
-  '--MenuItem_paddingTopbarVertical': '0.92857em',
-  '--MenuItem_paddingTopbarHorizontal': '1.7142857em',
-  '--MenuItem_paddingOffScreenVertical': '0.58823529411em',
-  '--MenuItem_paddingOffScreenHorizontal': '1.41176470588em',
+  '--MenuItem_paddingTopbarVertical': pxToEms(13, 14), // eslint-disable-line no-magic-numbers
+  '--MenuItem_paddingTopbarHorizontal': pxToEms(24, 14), // eslint-disable-line no-magic-numbers
+  '--MenuItem_paddingOffScreenVertical': pxToEms(10, 17), // eslint-disable-line no-magic-numbers
+  '--MenuItem_paddingOffScreenHorizontal': pxToEms(24, 17), // eslint-disable-line no-magic-numbers
   '--MenuItem_textColor': textColor,
   '--MenuItem_textColorFocus': textColorFocus,
   '--MenuItem_letterSpacing': '0.09px',
@@ -163,6 +168,6 @@ module.exports = {
 
   '--MenuSection_titleColor': 'rgba(153, 153, 153, 0.5)',
   '--MenuSection_fontSizeTitle': fontSizeSmaller,
-  '--MenuSection_paddingOffScreenVertical': '0.833333em',
-  '--MenuSection_paddingOffScreenHorizontal': '2em',
+  '--MenuSection_paddingOffScreenVertical': pxToEms(10, 12), // eslint-disable-line no-magic-numbers
+  '--MenuSection_paddingOffScreenHorizontal': pxToEms(24, 12), // eslint-disable-line no-magic-numbers
 };

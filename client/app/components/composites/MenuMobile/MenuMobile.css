@@ -91,11 +91,11 @@
 
 .menuSection {
 
-  & .menuSectionItem {
+  & .menuSectionMenuItem {
     border-bottom: 0;
   }
 
-  & .menuSectionItemLink {
+  & .menuSectionMenuItemLink {
     padding: var(--MenuItem_paddingOffScreenVertical) var(--MenuItem_paddingOffScreenHorizontal);
     letter-spacing: 0;
 
@@ -106,6 +106,7 @@
     }
   }
 }
+
 .menuSectionTitle {
   font-size: var(--MenuSection_fontSizeTitle);
   position: relative;
