@@ -67,7 +67,10 @@
     }
   }
 
+}
 
+.topbarMobileMenu {
+  font-size: var(--Topbar_fontSizeMobile);
 }
 
 .topbarLogo {

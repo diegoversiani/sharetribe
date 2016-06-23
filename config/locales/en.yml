@@ -2164,6 +2164,7 @@ en:
     topbar:
       menu: Menu
       search_placeholder: Search...
+      user: User
   will_paginate:
     models:
       person:

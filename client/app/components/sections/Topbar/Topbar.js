@@ -83,7 +83,8 @@ class Topbar extends Component {
       menuLabelType: LABEL_TYPE_MENU,
       extraClasses: `${css.topbarMobileMenu}`,
       color: marketplaceContext.marketplace_color1,
-      content: this.props.menu.links.map((l) => (
+      menuLinksTitle: t('web.topbar.menu'),
+      menuLinks: this.props.menu.links.map((l) => (
         {
           active: l.link === marketplaceContext.location,
           activeColor: marketplaceContext.marketplace_color1,

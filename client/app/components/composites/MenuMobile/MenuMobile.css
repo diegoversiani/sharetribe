@@ -26,6 +26,7 @@
 
 .overlay {
   display: none;
+  cursor: pointer;
   position: fixed;
   top: 0;
   left: 0;
@@ -86,3 +87,36 @@
 .offScreenFooter {
 
 }
+
+
+.menuSection {
+
+  & .menuSectionItem {
+    border-bottom: 0;
+  }
+
+  & .menuSectionItemLink {
+    padding: var(--MenuItem_paddingOffScreenVertical) var(--MenuItem_paddingOffScreenHorizontal);
+    letter-spacing: 0;
+
+    &:focus,
+    &:hover {
+      color: var(--MenuItem_textColorFocus);
+      background-color: var(--MenuItem_backgroundColorHover);
+    }
+  }
+}
+.menuSectionTitle {
+  font-size: var(--MenuSection_fontSizeTitle);
+  position: relative;
+  min-width: 144px;
+  list-style: none;
+
+  display: inline-block;
+  padding: var(--MenuSection_paddingOffScreenVertical) var(--MenuSection_paddingOffScreenHorizontal);
+  color: var(--MenuSection_titleColor);
+  width: 100%;
+  letter-spacing: 3px;
+}
+
+

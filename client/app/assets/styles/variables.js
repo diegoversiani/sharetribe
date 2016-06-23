@@ -1,4 +1,5 @@
 /* eslint-env node */
+const fontSizeSmaller = '12px';
 const fontSizeSmall = '13px';
 const fontSize = '14px';
 const fontSizeBig = '16px';
@@ -7,8 +8,6 @@ const textColor = 'rgb(82, 89, 97)';
 const textColorFocus = 'rgb(0, 0, 0)';
 const backgroundLightColor = 'white';
 const backgroundLightColorHover = 'rgba(169, 172, 176, 0.07)';
-const paddingTopbarVertical = '0.92857em';
-const paddingTopbarHorizontal = '1.7142857em';
 
 const topbarBorderColor = 'rgba(169, 172, 176, 0.5)';
 const bodyPadding = '18px';
@@ -95,6 +94,7 @@ module.exports = {
    // on an input.
   '--Topbar_inputFontSizeMobile': fontSizeBig,
   '--Topbar_fontSize': fontSize,
+  '--Topbar_fontSizeMobile': fontSizeMobile,
 
   '--Topbar_avatarSize': '44px',
   '--Topbar_avatarPadding': '18px 24px',
@@ -139,8 +139,10 @@ module.exports = {
 
   '--MenuItem_borderColor': topbarBorderColor,
   '--MenuItem_backgroundColorHover': backgroundLightColorHover,
-  '--MenuItem_paddingTopbarVertical': paddingTopbarVertical,
-  '--MenuItem_paddingTopbarHorizontal': paddingTopbarHorizontal,
+  '--MenuItem_paddingTopbarVertical': '0.92857em',
+  '--MenuItem_paddingTopbarHorizontal': '1.7142857em',
+  '--MenuItem_paddingOffScreenVertical': '0.58823529411em',
+  '--MenuItem_paddingOffScreenHorizontal': '1.41176470588em',
   '--MenuItem_textColor': textColor,
   '--MenuItem_textColorFocus': textColorFocus,
   '--MenuItem_letterSpacing': '0.09px',
@@ -158,4 +160,9 @@ module.exports = {
   // topbar can't control base font-size.
   '--Menu_labelPaddingVertical': '1.28571429em',
   '--Menu_labelPaddingHorizontal': '1.714285em',
+
+  '--MenuSection_titleColor': 'rgba(153, 153, 153, 0.5)',
+  '--MenuSection_fontSizeTitle': fontSizeSmaller,
+  '--MenuSection_paddingOffScreenVertical': '0.833333em',
+  '--MenuSection_paddingOffScreenHorizontal': '2em',
 };

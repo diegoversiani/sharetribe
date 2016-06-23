@@ -17,6 +17,7 @@ class MenuMobile extends Component {
       isOpen: false,
     };
   }
+
   handleClick() {
     this.setState({ isOpen: !this.state.isOpen });// eslint-disable-line react/no-set-state
   }
@@ -52,6 +53,9 @@ class MenuMobile extends Component {
       r(OffScreenMenu, {
         toggleOpen: this.closeMenu,
         isOpen: this.state.isOpen,
+        color: overlayColor,
+        menuLinksTitle: this.props.menuLinksTitle,
+        menuLinks: this.props.menuLinks,
       }),
     ]);
   }
@@ -61,8 +65,9 @@ MenuMobile.propTypes = {
   name: PropTypes.string.isRequired,
   extraClasses: PropTypes.string,
   identifier: PropTypes.string.isRequired,
-  color: PropTypes.String,
-  content: PropTypes.arrayOf(
+  color: PropTypes.string,
+  menuLinksTitle: PropTypes.string,
+  menuLinks: PropTypes.arrayOf(
     PropTypes.shape({
       active: PropTypes.bool.isRequired,
       activeColor: PropTypes.string.isRequired,
